@@ -374,83 +374,73 @@ Agar transaksi bisa lebih fokus berjalan, maka dilakukan redirect website agar m
 
 #### EniesLobby
 
-Edit file `nano /etc/bind/named.conf.local` dengan mengisi
+1. Edit file `nano /etc/bind/named.conf.local` dengan mengisi
 
-```bash
-    zone "super.franky.d05.com" {
+```
+    zone "super.franky.A09.com" {
         type master;
-        file "/etc/bind/sunnygo/super.franky.d05.com";
+        file "/etc/bind/sunnygo/super.franky.A09.com";
+    };
+    
+    zone "3.173.192.in-addr.arpa" {
+    type master;
+    file "/etc/bind/kaizoku/3.173.192.in-addr.arpa";
     };
 
-    zone "3.194.192.in-addr.arpa" {
-        type master;
-        file "/etc/bind/sunnygo/3.194.192.in-addr.arpa";
-    };
 ```
 
-![11.1](imgs/11.1.JPG)
+![image](https://user-images.githubusercontent.com/36225278/141273350-738a0118-2da3-474a-9b82-8c05cee3e114.png)
 
-Kemudian buat folder sunnygo menggunakan command `mkdir /etc/bind/sunnygo`. Setelah itu jalankan command `cp /etc/bind/db.local /etc/bind/sunnygo/super.franky.d05.com`. Setelah itu edit file `nano /etc/bind/sunnygo/super.franky.d05.com` dengan mengisi
+2. Kemudian buat folder sunnygo menggunakan command `mkdir /etc/bind/sunnygo`. 
+3. Setelah itu jalankan command `cp /etc/bind/db.local /etc/bind/sunnygo/super.franky.A09.com`. 
+4. Setelah itu edit file `nano /etc/bind/sunnygo/super.franky.A09.com` dengan mengisi
 
-```bash
+```
     $TTL    604800
-    @       IN      SOA     super.franky.d05.com. root.super.franky.d05.com. (
+    @       IN      SOA     super.franky.A09.com. root.super.franky.A09.com. (
                                 2         ; Serial
                             604800         ; Refresh
                             86400         ; Retry
                             2419200         ; Expire
                             604800 )       ; Negative Cache TTL
     ;
-    @       IN      NS      super.franky.d05.com.
-    @       IN      A       192.194.3.69 ; IP Skypie
-    www     IN      CNAME   super.franky.d05.com.
+    @       IN      NS      super.franky.A09.com.
+    @       IN      A       192.173.3.69 
+    www     IN      CNAME   super.franky.A09.com.
+    @       IN      AAAA    ::1
 ```
 
-![11.2](imgs/11.2.JPG)
+![image](https://user-images.githubusercontent.com/36225278/141273839-03e5d10a-51d2-4d24-8d9e-cd44f0936302.png)
 
-Setelah itu jalankan command `cp /etc/bind/db.local /etc/bind/sunnygo/3.194.192.in-addr.arpa`. Setelah itu edit file `nano /etc/bind/sunnygo/3.194.192.in-addr.arpa` dengan mengisi
-
-```bash
-    $TTL    604800
-    @       IN      SOA     super.franky.d05.com. root.super.franky.d05.com. (
-                                2         ; Serial
-                            604800         ; Refresh
-                            86400         ; Retry
-                            2419200         ; Expire
-                            604800 )       ; Negative Cache TTL
-    ;
-    3.194.192.in-addr.arpa.      IN      NS      super.franky.d05.com.
-    69       IN      PTR       super.franky.d05.com.
-```
-
-![11.3](imgs/11.3.JPG)
-
-kemudian jalankan command `service bind9 restart`
+5. kemudian jalankan command `service bind9 restart`
 
 #### Skypie
 
-Pertama, install `apache2`, `php`, `libapache2-mod-php7.0`, `wget`, dan `unzip`.
+6. Install `apache2`, `php`, `libapache2-mod-php7.0`, `wget`, dan `unzip`.
 
-Kemudian jalankan command `wget https://raw.githubusercontent.com/FeinardSlim/Praktikum-Modul-2-Jarkom/main/super.franky.zip` kemudian `unzip super.franky.zip`
+7. Kemudian jalankan command `wget https://raw.githubusercontent.com/FeinardSlim/Praktikum-Modul-2-Jarkom/main/super.franky.zip` kemudian `unzip super.franky.zip`
 
-Setelah itu, pindah ke directory `/etc/apache2/sites-available`.Kemudian copy file `000-default.conf` menjadi file `super.franky.d05.com.conf`
+8. Setelah itu, pindah ke directory `/etc/apache2/sites-available`.Kemudian copy file `000-default.conf` menjadi file `super.franky.A09.com.conf`
 
-![11.4](imgs/11.4.JPG)
+9. Lalu setting file `super.franky.A09.com.conf` agar memiliki line 
 
-Lalu setting file `super.franky.d05.com.conf` agar memiliki line `ServerName super.franky.d05.com`, `ServerAlias www.super.franky.d05.com`, dan `DocumentRoot /var/www/super.franky.d05.com`.
+```
+	DocumentRoot /var/www/super.franky.A09.com
+      	ServerName super.franky.A09.com
+        ServerAlias www.super.franky.A09.com
+```
 
-![11.5](imgs/11.5.JPG)
+![image](https://user-images.githubusercontent.com/36225278/141274182-571c0f1f-0ebc-4d1e-ac39-83bf26954834.png)
 
-Kemudian bikin directory baru dengan nama `super.franky.d05.com` pada `/var/www/` menggunakan command `mkdir /var/www/super.franky.d05.com`. lalu copy isi dari folder `super.franky` yang telah didownload ke `/var/www/super.franky.d05.com`.
+10. Kemudian bikin directory baru dengan nama `super.franky.A09.com` pada `/var/www/` menggunakan command `mkdir /var/www/super.franky.A09.com`. lalu copy isi dari folder `super.franky` yang telah didownload ke `/var/www/super.franky.A09.com`.
 
-Setelah itu jalankan command `a2ensite super.franky.d05.com` dan `service apache2 restart`
-![11.6](imgs/11.6.JPG)
+11. Setelah itu jalankan command `a2ensite super.franky.A09.com` dan `service apache2 restart`
 
 #### Water7
 
-Setelah itu edit file `/etc/squid/squid.conf` menjadi
+12. Setelah itu edit file `/etc/squid/squid.conf` menjadi
 
-```bash
+```
     include /etc/squid/acl.conf
 
     http_port 5000
@@ -461,13 +451,82 @@ Setelah itu edit file `/etc/squid/squid.conf` menjadi
     auth_param basic credentialsttl 2 hours
     auth_param basic casesensitive on
     acl USERS proxy_auth REQUIRED
-    acl google dstdomain www.google.com
-    http_access allow USERS AVAILABLE_WORKING
-    http_access deny all google
+    acl google dstdomain google.com
+    http_access deny google
     deny_info http://super.franky.d05.com/ google
+    http_access allow USERS AVAILABLE_WORKING
     http_access deny all
 ```
 
-![11.7](imgs/11.7.JPG)
+![image](https://user-images.githubusercontent.com/36225278/141274770-ac74e7af-306a-4957-8e5b-c488bea18fa8.png)
 
-kemudian jalankan command `service squid restart`
+13. Kemudian edit file `/etc/resolv.conf` menjadi
+
+```
+    nameserver 192.194.2.2
+```
+
+![image](https://user-images.githubusercontent.com/36225278/141274925-6df8a8ad-fbd4-47be-b32e-f5b187573c7f.png)
+
+14. kemudian jalankan command `service squid restart`
+
+## no. 12
+
+Saatnya berlayar! Luffy dan Zoro akhirnya memutuskan untuk berlayar untuk mencari harta karun di super.franky.yyy.com. Tugas pencarian dibagi menjadi dua misi, Luffy bertugas untuk mendapatkan gambar (.png, .jpg), sedangkan Zoro mendapatkan sisanya. Karena Luffy orangnya sangat teliti untuk mencari harta karun, ketika ia berhasil mendapatkan gambar, ia mendapatkan gambar dan melihatnya dengan kecepatan 10 kbps
+
+### Jawab
+
+#### Water7
+
+Jalankan command `nano /etc/squid/acl-bandwidth.conf` untuk membuat file `acl-bandwidth.conf` yang diisi dengan
+
+```bash
+    acl luffy url_regex -i \.png$
+    acl luffy url_regex -i \.jpg$
+
+    delay_pools 1
+    delay_class 1 1
+    delay_parameters 1 10000/10000
+    delay_access 1 allow luffy
+    delay_access 1 deny all
+```
+
+![12.1](imgs/12.1.JPG)
+
+Kemudian tambahkan baris ini pada `/etc/squid/squid.conf`
+
+```bash
+    include /etc/squid/acl-bandwidth.conf
+```
+
+![12.2](imgs/12.2.JPG)
+
+Setelah itu jalankan command `service squid restart`
+
+## no. 13
+
+Sedangkan, Zoro yang sangat bersemangat untuk mencari harta karun, sehingga kecepatan kapal Zoro tidak dibatasi ketika sudah mendapatkan harta yang diinginkannya
+
+### Jawab
+
+#### Water7
+
+Edit file `acl-bandwidth.conf` menjadi
+
+```bash
+    acl luffy url_regex -i \.png$
+    acl luffy url_regex -i \.jpg$
+
+    delay_pools 2
+    delay_class 1 1
+    delay_parameters 1 10000/10000
+    delay_access 1 allow luffy
+    delay_access 1 deny all
+    delay_class 2 1
+    delay_parameters 2 none
+    delay_access 2 allow !luffy
+```
+
+![13.1](imgs/13.1.JPG)
+
+Setelah itu jalankan command `service squid restart`
