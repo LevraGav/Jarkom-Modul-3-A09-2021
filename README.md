@@ -80,7 +80,7 @@ Luffy bersama Zoro berencana membuat peta tersebut dengan kriteria EniesLobby se
 
 #### Foosha
 
-1. Menjalankan command `iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE -s 192.194.0.0/16` yang digunakan supaya dapat terhubung ke jaringan luar pada router `Foosha`
+1. Menjalankan command `iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE -s 192.173.0.0/16` yang digunakan supaya dapat terhubung ke jaringan luar pada router `Foosha`
 
 2. Setelah itu pada EniesLobby, Water7, Jipangu dijalankan command `echo "nameserver 192.168.122.1" > /etc/resolv.conf` untuk setting IP DNS agar dapat terhubung ke jaringan luar.
 
@@ -463,7 +463,7 @@ Agar transaksi bisa lebih fokus berjalan, maka dilakukan redirect website agar m
 13. Kemudian edit file `/etc/resolv.conf` menjadi
 
 ```
-    nameserver 192.194.2.2
+    nameserver 192.173.2.2
 ```
 
 ![image](https://user-images.githubusercontent.com/36225278/141274925-6df8a8ad-fbd4-47be-b32e-f5b187573c7f.png)
