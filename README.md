@@ -271,7 +271,7 @@ Pada Loguetown, proxy harus bisa diakses dengan nama jualbelikapal.yyy.com denga
 
 ```
     http_port 5000
-    visible_hostname jualbelikapal.d05.com
+    visible_hostname jualbelikapal.A09.com
     http_access allow all
 ```
 
@@ -444,7 +444,7 @@ Agar transaksi bisa lebih fokus berjalan, maka dilakukan redirect website agar m
     include /etc/squid/acl.conf
 
     http_port 5000
-    visible_hostname jualbelikapal.d05.com
+    visible_hostname jualbelikapal.A09.com
     auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/passwd
     auth_param basic children 5
     auth_param basic realm Login
@@ -453,7 +453,7 @@ Agar transaksi bisa lebih fokus berjalan, maka dilakukan redirect website agar m
     acl USERS proxy_auth REQUIRED
     acl google dstdomain google.com
     http_access deny google
-    deny_info http://super.franky.d05.com/ google
+    deny_info http://super.franky.A09.com/ google
     http_access allow USERS AVAILABLE_WORKING
     http_access deny all
 ```
