@@ -470,7 +470,7 @@ Agar transaksi bisa lebih fokus berjalan, maka dilakukan redirect website agar m
 
 14. kemudian jalankan command `service squid restart`
 
-## no. 12
+# --- No 12 ---
 
 Saatnya berlayar! Luffy dan Zoro akhirnya memutuskan untuk berlayar untuk mencari harta karun di super.franky.yyy.com. Tugas pencarian dibagi menjadi dua misi, Luffy bertugas untuk mendapatkan gambar (.png, .jpg), sedangkan Zoro mendapatkan sisanya. Karena Luffy orangnya sangat teliti untuk mencari harta karun, ketika ia berhasil mendapatkan gambar, ia mendapatkan gambar dan melihatnya dengan kecepatan 10 kbps
 
@@ -507,13 +507,13 @@ Setelah itu jalankan command `service squid restart`
 
 Sedangkan, Zoro yang sangat bersemangat untuk mencari harta karun, sehingga kecepatan kapal Zoro tidak dibatasi ketika sudah mendapatkan harta yang diinginkannya
 
-### Jawab
+### Langkah Penyelesaian
 
 #### Water7
 
 Edit file `acl-bandwidth.conf` menjadi
 
-```bash
+```
     acl luffy url_regex -i \.png$
     acl luffy url_regex -i \.jpg$
 
