@@ -248,65 +248,62 @@ Luffy dan Zoro berencana menjadikan Skypie sebagai server untuk jual beli kapal 
         fixed-address 192.173.3.69;
     }
 ```
+![image](https://user-images.githubusercontent.com/36225278/141266005-ab6c8d05-9f23-4f5c-848f-b5c006e87e73.png)
 
-
-Lalu jalankan command `service isc-dhcp-server restart`
+2. Lalu jalankan command `service isc-dhcp-server restart`
 
 #### Skypie
 
-Kemudian tambahkan `hwaddress ether "hardware address Skypie"` pada `/etc/network/interfaces` agar hwaddress tidak berubah-ubah ketika project direstart atau diexport
+3. Kemudian tambahkan `hwaddress ether "hardware address Skypie"` pada `/etc/network/interfaces` agar hwaddress tidak berubah-ubah ketika project direstart atau diexport
 
-![7.2](imgs/7.2.JPG)
+![image](https://user-images.githubusercontent.com/36225278/141269665-a4b88db9-4d06-4b6d-96d8-c08e5ec7bdc2.png)
 
-## no. 8
+# --- No 8 ---
 
 Loguetown digunakan sebagai client Proxy agar transaksi jual beli dapat terjamin keamanannya, juga untuk mencegah kebocoran data transaksi.
 Pada Loguetown, proxy harus bisa diakses dengan nama jualbelikapal.yyy.com dengan port yang digunakan adalah 5000
 
-### Jawab
+### Langkah Penyelesaian : 
 
 #### Water7
 
-Edit file `/etc/squid/squid.conf` dengan menambahkan
+1. Edit file `/etc/squid/squid.conf` dengan menambahkan
 
-```bash
+```
     http_port 5000
     visible_hostname jualbelikapal.d05.com
     http_access allow all
 ```
 
-![8.1](imgs/8.1.JPG)
-
-kemudian jalankan command `service squid restart`
+2. kemudian jalankan command `service squid restart`
 
 #### Skypie
 
-Jalankan `apt-get update` dan `apt-get install lynx`
+3. Jalankan `apt-get update` dan `apt-get install lynx`
 
-Aktifkan proxy dengan menjalankan command `export http_proxy="http://192.194.2.3:5000"`. Kemudian jalankan command `env | grep -i proxy` untuk mengecek apakah proxy sudah tersetting.
+4. Aktifkan proxy dengan menjalankan command `export http_proxy="http://192.173.2.3:5000"`. Kemudian jalankan command `env | grep -i proxy` untuk mengecek apakah proxy sudah tersetting.
 
-![8.2](imgs/8.2.JPG)
+![image](https://user-images.githubusercontent.com/36225278/141270403-d7f48f1b-dfa6-4ff0-be01-fb468729584c.png)
 
-## no. 9
+# --- No 9 ---
 
 Agar transaksi jual beli lebih aman dan pengguna website ada dua orang, proxy dipasang autentikasi user proxy dengan enkripsi MD5 dengan dua username, yaitu luffybelikapalyyy dengan password luffy_yyy dan zorobelikapalyyy dengan password zoro_yyy
 
-### Jawab
+### Langkah Penyelesaian : 
 
 #### Water7
 
-Jalankan `apt-get update` dan `apt-get install apache2-utils`
+1. Jalankan `apt-get update` dan `apt-get install apache2-utils`
 
-Kemudian jalankan command `htpasswd -cm /etc/squid/passwd luffybelikapald05`, option `c` digunakan untuk membuat file baru, sedangkan `m` digunakan supaya enkripsinya menggunakan MD5. Setelah itu masukkan password `luffy_d05`.
+2. Kemudian jalankan command `htpasswd -cm /etc/squid/passwd luffybelikapalA09`, option `c` digunakan untuk membuat file baru, sedangkan `m` digunakan supaya enkripsinya menggunakan MD5. Setelah itu masukkan password `luffy_A09`.
 
-Kemudian jalankan command `htpasswd -m /etc/squid/passwd zorobelikapald05`. Setelah itu masukkan password `zoro_d05`.
-![9.1](imgs/9.1.JPG)
+3. Kemudian jalankan command `htpasswd -m /etc/squid/passwd zorobelikapalA09`. Setelah itu masukkan password `zoro_A09`.
 
-Setelah itu edit file `/etc/squid/squid.conf` menjadi
+4. Setelah itu edit file `/etc/squid/squid.conf` menjadi
 
-```bash
+```
     http_port 5000
-    visible_hostname jualbelikapal.d05.com
+    visible_hostname jualbelikapal.A09.com
     auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/passwd
     auth_param basic children 5
     auth_param basic realm Login
@@ -316,54 +313,64 @@ Setelah itu edit file `/etc/squid/squid.conf` menjadi
     http_access allow USERS
 ```
 
-![9.2](imgs/9.2.JPG)
+![image](https://user-images.githubusercontent.com/36225278/141270948-5d789656-d48a-40af-9eb9-94b48fdf78af.png)
 
-kemudian jalankan command `service squid restart`
+5. kemudian jalankan command `service squid restart`
 
-## no. 10
+# --- No 10 ---
 
 Transaksi jual beli tidak dilakukan setiap hari, oleh karena itu akses internet dibatasi hanya dapat diakses setiap hari Senin-Kamis pukul 07.00-11.00 dan setiap hari Selasa-Jum’at pukul 17.00-03.00 keesokan harinya (sampai Sabtu pukul 03.00)
 
-### Jawab
+### Langkah Penyelesaian : 
 
 #### Water7
 
-Buat file baru bernama `acl.conf` di folder squid dengan menjalankan command `nano /etc/squid/acl.conf` kemudian diisi dengan
+1. Buat file baru bernama `acl.conf` di folder squid dengan menjalankan command `nano /etc/squid/acl.conf` kemudian diisi dengan
 
-```bash
-    acl AVAILABLE_WORKING time MTWH 07:00-11:00
-    acl AVAILABLE_WORKING time TWHF 17:00-23:59
-    acl AVAILABLE_WORKING time WHFA 00:00-03:00
+```
+acl time_done_1 time S 00:00-23:59
+acl time_done_2 time MT 00:00-06:59
+acl time_done_3 time M 11:01-23:59
+acl time_done_4 time TWH 11:01-16:59
+acl time_done_5 time WH 03:01-06:59
+acl time_done_6 time F 03:01-16:59
+acl time_done_7 time A 03:01-23:59
 ```
 
-![10.1](imgs/10.1.JPG)
+![image](https://user-images.githubusercontent.com/36225278/141271554-c84dcc46-20f7-4760-8b5f-f6ba95e846ee.png)
 
-Setelah itu edit file `/etc/squid/squid.conf` menjadi
+2. Setelah itu edit file `/etc/squid/squid.conf` menjadi
 
-```bash
-    include /etc/squid/acl.conf
+```
+include /etc/squid/acl.conf
+http_port 5000
+visible_hostname jualbelikapal.A09.com
 
-    http_port 5000
-    visible_hostname jualbelikapal.d05.com
-    auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/passwd
-    auth_param basic children 5
-    auth_param basic realm Login
-    auth_param basic credentialsttl 2 hours
-    auth_param basic casesensitive on
-    acl USERS proxy_auth REQUIRED
-    http_access allow USERS AVAILABLE_WORKING
-    http_access deny all
+http_access deny time_done_1
+http_access deny time_done_2
+http_access deny time_done_3
+http_access deny time_done_4
+http_access deny time_done_5
+http_access deny time_done_6
+http_access deny time_done_7
+
+auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/passwd
+auth_param basic children 5
+auth_param basic realm Proxy
+auth_param basic credentialsttl 2 hours
+auth_param basic casesensitive on
+acl USERS proxy_auth REQUIRED
 ```
 
-![10.2](imgs/10.2.JPG)
+![image](https://user-images.githubusercontent.com/36225278/141272068-60b52915-49c1-4f7d-964c-1ab15a27f5f3.png)
 
-kemudian jalankan command `service squid restart`
+3. Kemudian jalankan command `service squid restart`
 
-## no. 11
+# --- No 11 ---
 
 Agar transaksi bisa lebih fokus berjalan, maka dilakukan redirect website agar mudah mengingat website transaksi jual beli kapal. Setiap mengakses google.com, akan diredirect menuju super.franky.yyy.com dengan website yang sama pada soal shift modul 2. Web server super.franky.yyy.com berada pada node Skypie
 
-### Jawab
+### Langkah Penyelesaian
 
 #### EniesLobby
 
