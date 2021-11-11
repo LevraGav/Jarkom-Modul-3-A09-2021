@@ -481,17 +481,14 @@ Saatnya berlayar! Luffy dan Zoro akhirnya memutuskan untuk berlayar untuk mencar
 Jalankan command `nano /etc/squid/acl-bandwidth.conf` untuk membuat file `acl-bandwidth.conf` yang diisi dengan
 
 ```bash
-    acl luffy url_regex -i \.png$
-    acl luffy url_regex -i \.jpg$
-
-    delay_pools 1
-    delay_class 1 1
-    delay_parameters 1 10000/10000
-    delay_access 1 allow luffy
-    delay_access 1 deny all
+   acl download url_regex -i \.png$ \.jpg$
+   delay_pools 1
+   delay_class 1 1
+   delay_parameters 1 10000/10000
+   delay_access 1 allow download
+   delay_access 1 deny all
 ```
-
-![12.1](imgs/12.1.JPG)
+![image](https://user-images.githubusercontent.com/72689610/141350645-48789e6f-47c0-433e-bb8a-e15ef17aa061.png)
 
 Kemudian tambahkan baris ini pada `/etc/squid/squid.conf`
 
@@ -499,9 +496,34 @@ Kemudian tambahkan baris ini pada `/etc/squid/squid.conf`
     include /etc/squid/acl-bandwidth.conf
 ```
 
-![12.2](imgs/12.2.JPG)
+![image](https://user-images.githubusercontent.com/72689610/141350765-610a2aad-efcf-443b-8caa-596a406e57fb.png)
 
 Setelah itu jalankan command `service squid restart`
+
+Kemudian di `loguetown`, hal - hal yang perlu dilakukan adalah :
+1. Cek apakah proxy sudah terpasang dengan menggunakan command `env | grep -i proxy`
+2. Jika belum, maka proxy bisa dipasang dengan command `export http_proxy=http://192.173.2.3:5000`
+3. Kemudian jalankan perintah `lynx google.com`, maka server akan diarahkan untuk menggunakan `www.super.franky.A09.com`. 
+![image](https://user-images.githubusercontent.com/72689610/141358310-415ca4f2-e029-4726-a07e-717750c82211.png)
+
+4. Isikan data username dengan `luffybelikapalA09` dan password dengan ```luffy_A09```.
+![image](https://user-images.githubusercontent.com/72689610/141358392-77337808-936a-479b-a0ae-e4633da78715.png)
+![image](https://user-images.githubusercontent.com/72689610/141358424-50bdeacc-990d-41df-bc9e-2eece7b74ac0.png)
+
+5. Maka user akan diarahkan ke tampilan `www.super.franky.A09.com`
+![image](https://user-images.githubusercontent.com/72689610/141358550-fc3ae59d-73a8-467e-9984-3cc67ef14e3c.png)
+
+6. Masuk ke directory `public`, lalu pilih folder `images`. Maka akan muncul tampilan seperti gambar ke-3
+![image](https://user-images.githubusercontent.com/72689610/141358691-e938d8f2-8fc7-4f8c-b0e6-3b36207d609c.png)
+![image](https://user-images.githubusercontent.com/72689610/141358716-4942021b-3ce9-4eee-b71d-e079b5bf6f98.png)
+![image](https://user-images.githubusercontent.com/72689610/141358737-a5203ba3-6708-4257-94dd-60a07107f189.png)
+
+7. Untuk melakukan test kecepatan download Luffy, pilih salah satu file bertipe `jpg / png`, enter dan ketikkan `D` di keyboard untuk memulai proses download.
+8. Untuk output kecepatan download Luffy, bisa dilihat sebagai berikut :
+![image](https://user-images.githubusercontent.com/72689610/141359059-60726b31-e67c-48e7-917f-7ebb2933d8e5.png)
+
+9. Jika proses download sudah selesai, akan ditampilkan output sebagai berikut :
+![image](https://user-images.githubusercontent.com/72689610/141359505-8a85ea47-8b3c-41b5-a3e4-3a09a7620a36.png)
 
 ## no. 13
 
@@ -514,19 +536,48 @@ Sedangkan, Zoro yang sangat bersemangat untuk mencari harta karun, sehingga kece
 Edit file `acl-bandwidth.conf` menjadi
 
 ```
-    acl luffy url_regex -i \.png$
-    acl luffy url_regex -i \.jpg$
+    acl download url_regex -i \.jpg$ \.png$
+
+    auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/passwd
+
+    acl luffy proxy_auth luffybelikapalA09
+    acl zoro proxy_auth zorobelikapalA09
 
     delay_pools 2
     delay_class 1 1
-    delay_parameters 1 10000/10000
-    delay_access 1 allow luffy
+    delay_parameters 1 -1/-1
+    delay_access 1 allow zoro
     delay_access 1 deny all
     delay_class 2 1
-    delay_parameters 2 none
-    delay_access 2 allow !luffy
+    delay_parameters 2 10000/10000
+    delay_access 2 allow download
+    delay_access 2 deny all
 ```
 
-![13.1](imgs/13.1.JPG)
+![image](https://user-images.githubusercontent.com/72689610/141359721-18d82b7d-c535-4e9e-b14b-a266457e81cb.png)
 
 Setelah itu jalankan command `service squid restart`
+
+Kemudian di `loguetown`, hal - hal yang perlu dilakukan adalah :
+1. Cek apakah proxy sudah terpasang dengan menggunakan command `env | grep -i proxy`
+2. Jika belum, maka proxy bisa dipasang dengan command `export http_proxy=http://192.173.2.3:5000`
+3. Kemudian jalankan perintah `lynx google.com`, maka server akan diarahkan untuk menggunakan `www.super.franky.A09.com`. 
+![image](https://user-images.githubusercontent.com/72689610/141358310-415ca4f2-e029-4726-a07e-717750c82211.png)
+
+4. Isikan data username dengan `zorobelikapalA09` dan password dengan ```zoro_A09```.
+![image](https://user-images.githubusercontent.com/72689610/141359935-c8bebc60-5f64-4b22-bbaa-f066c2a6bfe4.png)
+![image](https://user-images.githubusercontent.com/72689610/141359989-5021e0ab-eb37-45b8-8590-4dfeb7523549.png)
+
+5. Maka user akan diarahkan ke tampilan `www.super.franky.A09.com`
+![image](https://user-images.githubusercontent.com/72689610/141358550-fc3ae59d-73a8-467e-9984-3cc67ef14e3c.png)
+
+6. Masuk ke directory `public`, lalu pilih folder `images`. Maka akan muncul tampilan seperti gambar ke-3
+![image](https://user-images.githubusercontent.com/72689610/141358691-e938d8f2-8fc7-4f8c-b0e6-3b36207d609c.png)
+![image](https://user-images.githubusercontent.com/72689610/141358716-4942021b-3ce9-4eee-b71d-e079b5bf6f98.png)
+![image](https://user-images.githubusercontent.com/72689610/141358737-a5203ba3-6708-4257-94dd-60a07107f189.png)
+
+7. Untuk melakukan test kecepatan download Zoro, pilih salah satu file bertipe `jpg / png`, enter dan ketikkan `D` di keyboard untuk memulai proses download.
+8. Untuk output kecepatan download Zoro dan hasil setelah download, bisa dilihat sebagai berikut :
+![image](https://user-images.githubusercontent.com/72689610/141360151-120a8ba3-4a1b-491a-b7b4-7ab415c90397.png)
+
+Disini kami tidak dapat melakukan screenshot kecepatan download dari Zoro, karena kecepatannya tidak diberikan limit sehingga proses download sudah selesai sebelum kami dapat melakukan screenshot.
