@@ -1,147 +1,189 @@
-# Praktikum Modul 3
+# Jarkom-Modul-3-A09-2021
+Laporan Resmi Praktikum Jarkom Modul 3 untuk kelompok A09.
 
-- Andika Nugrahanto (0511194000031)
-- Muhammad Rayhan Raffi Pratama (05111940000110)
-- Fadhil Dimas Sucahyo (05111940000212)
+# Anggota Kelompok
+Anggota  | NRP
+---------|-------
+Arvel Gavrilla Raissananda | 05111940000040
+Johnivan Aldo Sudiono | 05111940000051
+Vincent Yonathan | 05111940000186
+
+## Soal Jarkom-Modul-2 2021
+- [Soal](https://docs.google.com/document/d/1hwuI5YpxiP-aboS7wGWPbaQeSOQl0HHVHLT3ws2BPUk/edit)
 
 ## Pendahuluan
-
-### Setting Topologi
-
-![0.1](imgs/0.1.JPG)
+Luffy yang sudah menjadi Raja Bajak Laut ingin mengembangkan daerah kekuasaannya dengan membuat peta seperti berikut:
+![image](https://user-images.githubusercontent.com/36225278/141254625-b7547563-2b49-43ca-8941-d6618b795894.png)
 
 ### Edit Knofigurasi Network
 
 #### Foosha
+```
+auto eth0
+iface eth0 inet dhcp
 
-![0.2](imgs/0.2.JPG)
-![0.3](imgs/0.3.JPG)
+auto eth1
+iface eth1 inet static
+	address 192.173.1.1
+	netmask 255.255.255.0
+
+auto eth2
+iface eth2 inet static
+	address 192.173.2.1
+	netmask 255.255.255.0
+
+auto eth3
+iface eth3 inet static
+	address 192.173.3.1
+	netmask 255.255.255.0
+```
 
 #### EniesLobby
-
-![0.4](imgs/0.4.JPG)
-
+```
+auto eth0
+iface eth0 inet static
+	address 192.173.2.2
+	netmask 255.255.255.0
+	gateway 192.173.2.1
+```
 #### Water7
+```
+auto eth0
+iface eth0 inet static
+	address 192.173.2.3
+	netmask 255.255.255.0
+	gateway 192.173.2.1
+```
 
-![0.5](imgs/0.5.JPG)
+### Jipangu
+```
+auto eth0
+iface eth0 inet static
+	address 192.173.2.4
+	netmask 255.255.255.0
+	gateway 192.173.2.1
+```
 
-#### Jipangu
+#### Loguetown, Alabasta, Totoland, Skypie 
+```
+auto eth0
+iface eth0 inet dhcp
+```
 
-![0.6](imgs/0.6.JPG)
-
-#### Loguetown, Alabasta, Totoland, Skypie
-
-![0.7](imgs/0.7.JPG)
-
-## no. 1
+# --- No 1 ---
 
 Luffy bersama Zoro berencana membuat peta tersebut dengan kriteria EniesLobby sebagai DNS Server, Jipangu sebagai DHCP Server, Water7 sebagai Proxy Server
 
 ### Jawab
 
+### Langkah Penyelesaian : 
+
 #### Foosha
 
-Menjalankan command `iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE -s 192.194.0.0/16` yang digunakan supaya dapat terhubung ke jaringan luar pada router `Foosha`
-![1.1](imgs/1.1.JPG)
+1. Menjalankan command `iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE -s 192.194.0.0/16` yang digunakan supaya dapat terhubung ke jaringan luar pada router `Foosha`
 
-Setelah itu pada EniesLobby, Water7, Jipangu dijalankan command `echo "nameserver 192.168.122.1" > /etc/resolv.conf` untuk setting IP DNS agar dapat terhubung ke jaringan luar.
+2. Setelah itu pada EniesLobby, Water7, Jipangu dijalankan command `echo "nameserver 192.168.122.1" > /etc/resolv.conf` untuk setting IP DNS agar dapat terhubung ke jaringan luar.
 
 #### EniesLobby
 
-pada EniesLobby jalankan command `apt-get update` dan `apt-get install bind9 -y` untuk menginstall bind9
-![1.2](imgs/1.2.JPG)
+3. pada EniesLobby jalankan command `apt-get update` dan `apt-get install bind9 -y` untuk menginstall bind9
 
 #### Jipangu
 
-pada Jipangu jalankan command `apt-get update` dan `apt-get install isc-dhcp-server -y` untuk menginstall isc-dhcp-server
-![1.3](imgs/1.3.JPG)
+4. Pada Jipangu jalankan command `apt-get update` dan `apt-get install isc-dhcp-server -y` untuk menginstall isc-dhcp-server
 
-Kemudian setting `INTERFACES` yang digunakan oleh Jipangu pada file `/etc/default/isc-dhcp-server` dengan menambahkan `eth0`
-![1.5](imgs/1.5.JPG)
+5. Kemudian setting `INTERFACES` yang digunakan oleh Jipangu pada file `/etc/default/isc-dhcp-server` dengan menambahkan `eth0`
+![image](https://user-images.githubusercontent.com/36225278/141259265-4c8454e3-65eb-4d26-83b6-44f35e1237f4.png)
+
 
 #### Water7
 
-pada Water7 jalankan command `apt-get update` dan `apt-get install squid -y` untuk menginstall squid
-![1.4](imgs/1.4.JPG)
+6. pada Water7 jalankan command `apt-get update` dan `apt-get install squid -y` untuk menginstall squid
 
-## no. 2
+# --- No 2 ---
 
 Foosha sebagai DHCP Relay
 
-### Jawab
+### Langkah Penyelesaian : 
 
 #### Foosha
 
-pada Foosha jalankan command `apt-get update` dan `apt-get install isc-dhcp-relay -y` untuk menginstall isc-dhcp-relay
-![2.1](imgs/2.1.JPG)
+1. Pada Foosha jalankan command `apt-get update` dan `apt-get install isc-dhcp-relay -y` untuk menginstall isc-dhcp-relay
 
-Kemudian edit file `/etc/default/isc-dhcp-relay` dengan menambahkan `SERVER = "IP Jipangu"` dan `INTERFACES = "eth1 eth2 eth3"`
-![2.2](imgs/2.2.JPG)
+2. Kemudian edit file `/etc/default/isc-dhcp-relay` dengan menambahkan `SERVER = "IP Jipangu"` dan `INTERFACES = "eth1 eth2 eth3"`
+```
+# What servers should the DHCP relay forward requests to?
+SERVERS="192.173.2.4"
 
-Lalu jalankan command `service isc-dhcp-relay restart`
+# On what interfaces should the DHCP relay (dhrelay) serve DHCP requests?
+INTERFACES="eth1 eth2 eth3"
+```
 
-## no. 3
+![image](https://user-images.githubusercontent.com/36225278/141260709-71770623-ed1f-4114-87e0-c85334fed17c.png)
+
+3. Lalu jalankan command `service isc-dhcp-relay restart`
+
+# --- No 3 ---
 
 Client yang melalui Switch1 mendapatkan range IP dari [prefix IP].1.20 - [prefix IP].1.99 dan [prefix IP].1.150 - [prefix IP].1.169
 
-### Jawab
+### Langkah Penyelesaian : 
 
 #### Jipangu
 
-Edit file `/etc/dhcp/dhcpd.conf` dengan menambahkan:
+1. Edit file `/etc/dhcp/dhcpd.conf` dengan menambahkan:
 
-```bash
-    subnet 192.194.1.0 netmask 255.255.255.0 {
-        range 192.194.1.20 192.194.1.99;
-        range 192.194.1.150 192.194.1.169;
-        option routers 192.194.1.1;
-        option broadcast-address 192.194.1.255;
-        option domain-name-servers 192.194.2.2;
+```
+    subnet 192.173.1.0 netmask 255.255.255.0 {
+        range 192.173.1.20 192.173.1.99;
+        range 192.173.1.150 192.173.1.169;
+        option routers 192.173.1.1;
+        option broadcast-address 192.173.1.255;
+        option domain-name-servers 192.173.2.2;
         default-lease-time 360;
         max-lease-time 7200;
     }
 ```
+![image](https://user-images.githubusercontent.com/36225278/141260955-fbe98610-cfba-4540-8897-fbaf5f2907d0.png)
 
-![3.1](imgs/3.1.JPG)
+2. Lalu jalankan command `service isc-dhcp-server restart`
 
-Lalu jalankan command `service isc-dhcp-server restart`
-
-## no. 4
+# --- No 4 ---
 
 Client yang melalui Switch3 mendapatkan range IP dari [prefix IP].3.30 - [prefix IP].3.50
 
-### Jawab
+### Langkah Penyelesaian : 
 
 #### Jipangu
 
-Edit file `/etc/dhcp/dhcpd.conf` dengan menambahkan:
+1. Edit file `/etc/dhcp/dhcpd.conf` dengan menambahkan:
 
-```bash
-    subnet 192.194.3.0 netmask 255.255.255.0 {
-        range 192.194.3.30 192.194.3.50;
-        option routers 192.194.3.1;
-        option broadcast-address 192.194.3.255;
-        option domain-name-servers 192.194.2.2;
+```
+    subnet 192.173.3.0 netmask 255.255.255.0 {
+        range 192.173.3.30 192.173.3.50;
+        option routers 192.173.3.1;
+        option broadcast-address 192.173.3.255;
+        option domain-name-servers 192.173.2.2;
         default-lease-time 720;
         max-lease-time 7200;
     }
 ```
 
-![4.1](imgs/4.1.JPG)
+![image](https://user-images.githubusercontent.com/36225278/141261264-52c90f00-6b27-4acc-839b-dd25e6b7096f.png)
 
-Lalu jalankan command `service isc-dhcp-server restart`
+2. Lalu jalankan command `service isc-dhcp-server restart`
 
-## no. 5
+# --- No 5 ---
 
 Client mendapatkan DNS dari EniesLobby dan client dapat terhubung dengan internet melalui DNS tersebut.
 
-### Jawab
+### Langkah Penyelesaian : 
 
 #### EniesLobby
 
-Edit file `/etc/bind/named.conf.options` dengan menambahkan
+1. Edit file `/etc/bind/named.conf.options` dengan menambahkan
 
-```bash
+```
     forwarders {
         "IP nameserver dari Foosha";
     };
@@ -151,64 +193,62 @@ Edit file `/etc/bind/named.conf.options` dengan menambahkan
 
 dan mengkomen bagian
 
-```bash
+```
     // dnssec-validation auto;
 ```
 
-![5.2](imgs/5.2.JPG)
+![image](https://user-images.githubusercontent.com/36225278/141263657-1796e93d-b23d-4394-ace8-a6bafe9a7943.png)
 
-kemudian jalankan command `service bind9 restart`
+
+2. kemudian jalankan command `service bind9 restart`
 
 #### Jipangu
 
-Edit file `/etc/dhcp/dhcpd.conf` dengan menambahkan baris `option domain-name-servers "IP EniesLobby"` pada `subnet 192.194.1.0` dan `subnet 192.194.3.0`
+3. Edit file `/etc/dhcp/dhcpd.conf` dengan menambahkan baris `option domain-name-servers "IP EniesLobby"` pada `subnet 192.173.1.0` dan `subnet 192.173.3.0`
 
-![5.1](imgs/5.1.JPG)
 
-## no. 6
+# --- No 6 ---
 
 Lama waktu DHCP server meminjamkan alamat IP kepada Client yang melalui Switch1 selama 6 menit sedangkan pada client yang melalui Switch3 selama 12 menit. Dengan waktu maksimal yang dialokasikan untuk peminjaman alamat IP selama 120 menit.
 
-### Jawab
+### Langkah Penyelesaian : 
 
 #### Jipangu
 
-Edit file `/etc/dhcp/dhcpd.conf` dengan menambahkan baris ini pada `subnet 192.194.1.0`
+Edit file `/etc/dhcp/dhcpd.conf` dengan menambahkan baris ini pada `subnet 192.173.1.0`
 
-```bash
+```
         default-lease-time 360;
         max-lease-time 7200;
 ```
 
-![6.1](imgs/6.1.JPG)
 
-dan menambahkan baris ini pada `subnet 192.194.3.0`
+dan menambahkan baris ini pada `subnet 192.173.3.0`
 
-```bash
+```
         default-lease-time 720;
         max-lease-time 7200;
 ```
 
-![6.2](imgs/6.2.JPG)
+![image](https://user-images.githubusercontent.com/36225278/141264400-aa271498-2d14-4678-b9db-3c54092fd6dc.png)
 
-## no. 7
+# --- No 7 ---
 
 Luffy dan Zoro berencana menjadikan Skypie sebagai server untuk jual beli kapal yang dimilikinya dengan alamat IP yang tetap dengan IP [prefix IP].3.69
 
-### Jawab
+### Langkah Penyelesaian : 
 
 #### Jipangu
 
-Edit file `/etc/dhcp/dhcpd.conf` dengan menambahkan baris ini
+1. Edit file `/etc/dhcp/dhcpd.conf` dengan menambahkan baris ini
 
-```bash
+```
     host Skypie {
         hardware ethernet "hardware address Skypie";
-        fixed-address 192.194.3.69;
+        fixed-address 192.173.3.69;
     }
 ```
 
-![7.1](imgs/7.1.JPG)
 
 Lalu jalankan command `service isc-dhcp-server restart`
 
