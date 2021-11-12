@@ -525,7 +525,7 @@ Kemudian di `loguetown`, hal - hal yang perlu dilakukan adalah :
 9. Jika proses download sudah selesai, akan ditampilkan output sebagai berikut :
 ![image](https://user-images.githubusercontent.com/72689610/141359505-8a85ea47-8b3c-41b5-a3e4-3a09a7620a36.png)
 
-## no. 13
+# --- No 13 ---
 
 Sedangkan, Zoro yang sangat bersemangat untuk mencari harta karun, sehingga kecepatan kapal Zoro tidak dibatasi ketika sudah mendapatkan harta yang diinginkannya
 
