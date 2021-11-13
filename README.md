@@ -584,7 +584,7 @@ Disini kami tidak dapat melakukan screenshot kecepatan download dari Zoro, karen
 
 ---
 ## Kendala
-Kendala yang dialami daripada pengerjaan modul praktikum Jarkom ini adalah ;:
+Kendala yang dialami daripada pengerjaan modul praktikum Jarkom ini adalah :
 - Belum terbiasa menggunakan proxy sehingga kagok saat mengerjakan
 - Waktu yang sedikit untuk banyak soal
 - Harus menggabungkan dengan materi modul sebelumnya
