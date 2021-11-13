@@ -581,3 +581,10 @@ Kemudian di `loguetown`, hal - hal yang perlu dilakukan adalah :
 ![image](https://user-images.githubusercontent.com/72689610/141360151-120a8ba3-4a1b-491a-b7b4-7ab415c90397.png)
 
 Disini kami tidak dapat melakukan screenshot kecepatan download dari Zoro, karena kecepatannya tidak diberikan limit sehingga proses download sudah selesai sebelum kami dapat melakukan screenshot.
+
+---
+## Kendala
+Kendala yang dialami daripada pengerjaan modul praktikum Jarkom ini adalah ;:
+- Belum terbiasa menggunakan proxy sehingga kagok saat mengerjakan
+- Waktu yang sedikit untuk banyak soal
+- Harus menggabungkan dengan materi modul sebelumnya
